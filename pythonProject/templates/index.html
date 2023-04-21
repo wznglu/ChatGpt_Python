@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculator</title>
+    <style>
+
+
+    </style>
+</head>
+<body>
+    <form>
+<!--         <label>id(联系上下文的id，id如果变化了，就联系不了上下文了):</label><br>-->
+           {% if myid is defined %}
+		 <input type="hidden" id="num1" name="num1" value={{myid}}><br>
+	{% endif %}
+<!--        <input type="text" id="num1" name="num1"><br>-->
+<!--        <input type="text" id="num2" name="num2" placeholder="Send a message...">-->
+           <label>content:</label><br>
+   <textarea id="num2" tabindex="0" data-id="request-:r1:-8" rows="1" placeholder="Send a message..." class="m-0 w-full resize-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0" style="max-height: 2000px; height: 160px; overflow-y: hidden; width: 866px;"></textarea>
+       <br>
+        <button type="button" onclick="calculate()">send</button>
+    </form>
+    <div id="results">
+    </div>
+
+    <script>
+        var click=0;
+
+        function calculate() {
+            if(click==0)
+            {
+            click=1;
+            var num1 = document.getElementById("num1").value;
+            var num2 = document.getElementById("num2").value;
+            var xhr = new XMLHttpRequest();
+            var url = "http://192.168.124.26:5000/chat";
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+             console.log(xhr.readyState);
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    click=0;
+                    console.log(xhr.responseText);
+                    var response = JSON.parse(xhr.responseText);
+                    var result = response.content;
+                    var resultsDiv = document.getElementById("results");
+                    resultsDiv.innerHTML += "<p> your:  " + num2 + "</p>";
+                    resultsDiv.innerHTML += "<p> answer:  " + result + "</p><br>";
+                }
+            };
+            var data = JSON.stringify({"id": num1, "content": num2});
+            xhr.send(data);
+            }
+            else
+            {
+             alert('请求太过频繁，请等待上个问题返回！')
+            }
+
+        }
+    </script>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <title>表单页面</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>请输入以下信息：</h1>-->
+<!--    <form method="POST" action="/chat">-->
+<!--        <label for="id">id:</label>-->
+<!--        <input type="text" id="id" name="id">-->
+<!--        <br>-->
+<!--        <label for="content">输入问题：</label>-->
+<!--        <input type="text" id="content" name="content">-->
+<!--        <br>-->
+<!--        <input type="submit" value="提交">-->
+<!--    </form>-->
+<!--   {% if result is defined %}-->
+<!--		<p>Result: {{ result }}</p>-->
+<!--	{% endif %}-->
+<!--</body>-->
+<!--</html>-->
