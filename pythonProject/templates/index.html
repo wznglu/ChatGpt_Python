@@ -13,15 +13,18 @@
            {% if myid is defined %}
 		 <input type="hidden" id="num1" name="num1" value={{myid}}><br>
 	{% endif %}
+        <div id="results">
+    </div>
+
 <!--        <input type="text" id="num1" name="num1"><br>-->
 <!--        <input type="text" id="num2" name="num2" placeholder="Send a message...">-->
            <label>content:</label><br>
+        <div style="display: flex; justify-content: left; align-items: center">
    <textarea id="num2" tabindex="0" data-id="request-:r1:-8" rows="1" placeholder="Send a message..." class="m-0 w-full resize-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0" style="max-height: 2000px; height: 160px; overflow-y: hidden; width: 866px;"></textarea>
-       <br>
+
         <button type="button" onclick="calculate()">send</button>
+             </div>
     </form>
-    <div id="results">
-    </div>
 
     <script>
         var click=0;
@@ -32,7 +35,13 @@
             click=1;
             var num1 = document.getElementById("num1").value;
             var num2 = document.getElementById("num2").value;
-            var xhr = new XMLHttpRequest();
+            if(num2.length>2)
+            {
+            document.getElementById("num2").value=""
+              var resultsDiv1 = document.getElementById("results");
+                    resultsDiv1.innerHTML += "<p> your:  " + num2 + "</p>";
+
+             var xhr = new XMLHttpRequest();
             var url = "http://192.168.124.26:5000/chat";
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
@@ -43,13 +52,21 @@
                     console.log(xhr.responseText);
                     var response = JSON.parse(xhr.responseText);
                     var result = response.content;
+                    console.log(result);
                     var resultsDiv = document.getElementById("results");
-                    resultsDiv.innerHTML += "<p> your:  " + num2 + "</p>";
-                    resultsDiv.innerHTML += "<p> answer:  " + result + "</p><br>";
+<!--                    resultsDiv.innerHTML += "<p> your:  " + num2 + "</p>";-->
+                    resultsDiv.innerHTML += "<p> answer:  <pre>" + result +"</pre><p><br>";
+
                 }
             };
             var data = JSON.stringify({"id": num1, "content": num2});
             xhr.send(data);
+            }
+            else
+            {
+             click=0;
+             alert('长度太短，重新提问！')
+            }
             }
             else
             {

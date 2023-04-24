@@ -74,6 +74,7 @@ def chat(id,content):
         )
         contentsDic[id].append({"role": "assistant", "content": rsp.choices[0].message.content})
         # print(json.dumps(rsp,ensure_ascii=False))
+        print(f'结果:{rsp},\n{rsp.choices[0].message.content}')
         contentsUser.remove(id)
         return rsp.choices[0].message.content
     except Exception as e:
@@ -88,8 +89,8 @@ curID=0#测试目前自己管理id
 
 maxchatCount=100#最大保留聊天记录条数
 maxcontentCount=10#上下文条数
-maxinputLenth=2048#最大提问字数
-maxreLenth=2048#最大返回字数
+maxinputLenth=1800#最大提问字数
+maxreLenth=1800#最大返回字数
 
 contentsDic={}
 
@@ -121,7 +122,8 @@ def hello_world():
 
     return value
 if __name__ == '__main__':
-    openai.api_key = ''  # os.getenv("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")
+    openai.api_key =''  # os.getenv("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")
+    print(openai.Model.list())
     app.run(host='192.168.124.26',port=5000)
 
 
