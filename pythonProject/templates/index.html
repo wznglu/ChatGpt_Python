@@ -2,33 +2,39 @@
 <html>
 <head>
     <title>Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-
-
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        textarea {
+            max-width: 100%;
+            width: 100%;
+        }
+        button {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
-    <form>
-<!--         <label>id(联系上下文的id，id如果变化了，就联系不了上下文了):</label><br>-->
-           {% if myid is defined %}
-		 <input type="hidden" id="num1" name="num1" value={{myid}}><br>
-	{% endif %}
-        <div id="results">
+<form>
+    {% if myid is defined %}
+    <input type="hidden" id="num1" name="num1" value={{myid}}><br>
+    {% endif %}
+    <div id="results">
     </div>
-
-<!--        <input type="text" id="num1" name="num1"><br>-->
-<!--        <input type="text" id="num2" name="num2" placeholder="Send a message...">-->
-           <label>content:</label><br>
-        <div style="display: flex; justify-content: left; align-items: center">
-   <textarea id="num2" tabindex="0" data-id="request-:r1:-8" rows="1" placeholder="Send a message..." class="m-0 w-full resize-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0" style="max-height: 2000px; height: 160px; overflow-y: hidden; width: 866px;"></textarea>
-
+    <label>content:</label><br>
+    <div class="container">
+        <textarea id="num2" tabindex="0" data-id="request-:r1:-8" rows="1" placeholder="Send a message..."
+                  class="m-0 w-full resize-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0"
+                  style="max-height: 2000px; height: 160px; overflow-y: hidden;"></textarea>
         <button type="button" onclick="calculate()">send</button>
-             </div>
-    </form>
-
-    <script>
+    </div>
+</form>
+<script>
         var click=0;
-
         function calculate() {
             if(click==0)
             {
@@ -42,7 +48,7 @@
                     resultsDiv1.innerHTML += "<p> your:  " + num2 + "</p>";
 
              var xhr = new XMLHttpRequest();
-            var url = "http://192.168.124.26:5000/chat";
+            var url = "http://192.168.124.26/chat";
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             xhr.onreadystatechange = function () {
@@ -54,7 +60,6 @@
                     var result = response.content;
                     console.log(result);
                     var resultsDiv = document.getElementById("results");
-<!--                    resultsDiv.innerHTML += "<p> your:  " + num2 + "</p>";-->
                     resultsDiv.innerHTML += "<p> answer:  <pre>" + result +"</pre><p><br>";
 
                 }
@@ -74,28 +79,7 @@
             }
 
         }
-    </script>
+
+</script>
 </body>
 </html>
-
-<!--<!DOCTYPE html>-->
-<!--<html>-->
-<!--<head>-->
-<!--    <title>表单页面</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--    <h1>请输入以下信息：</h1>-->
-<!--    <form method="POST" action="/chat">-->
-<!--        <label for="id">id:</label>-->
-<!--        <input type="text" id="id" name="id">-->
-<!--        <br>-->
-<!--        <label for="content">输入问题：</label>-->
-<!--        <input type="text" id="content" name="content">-->
-<!--        <br>-->
-<!--        <input type="submit" value="提交">-->
-<!--    </form>-->
-<!--   {% if result is defined %}-->
-<!--		<p>Result: {{ result }}</p>-->
-<!--	{% endif %}-->
-<!--</body>-->
-<!--</html>-->
