@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 import openai
 from flask import Flask, request, render_template, jsonify
 from wechatpy import parse_message, create_reply
@@ -92,7 +94,13 @@ contentIds=[]#微信会有会话id，会多次重试，得做写逻辑
 
 from flask import Flask
 app = Flask(__name__)
-
+@app.route('/tt', methods=['POST', 'GET'])
+def hello_world1():
+    if request.method == 'POST':
+        return ""
+    else:
+        return render_template('demo.html')
+    return value
 @app.route('/chat', methods=['POST', 'GET'])
 def hello_world():
     if request.method == 'POST':
@@ -104,6 +112,8 @@ def hello_world():
     else:
         global curID
         curID=curID+1
+        current_path = os.getcwd()  # 获取当前运行目录
+        print(f'current_path.:{current_path}')
         return render_template('index.html',myid=curID)
     return value
 # 用于验证微信服务器
@@ -139,7 +149,7 @@ def wechat_auth():
             reply = create_reply('waiting...',msg)
             return reply.render()
 if __name__ == '__main__':
-    openai.api_key =''#免费版
-    #openai.api_key = ''#付费版
-    #print(openai.Model.list())
+    openai.api_key ='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'#免费版
+    #openai.api_key = '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'#付费版
+    print(openai.Model.list())
     app.run(host='0.0.0.0',port=80)

@@ -1,39 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>Calculator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        textarea {
-            max-width: 100%;
-            width: 100%;
-        }
-        button {
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
-<form>
-    {% if myid is defined %}
-    <input type="hidden" id="num1" name="num1" value={{myid}}><br>
-    {% endif %}
-    <div id="results">
-    </div>
-    <label>content:</label><br>
-    <div class="container">
-        <textarea id="num2" tabindex="0" data-id="request-:r1:-8" rows="1" placeholder="Send a message..."
-                  class="m-0 w-full resize-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0"
-                  style="max-height: 2000px; height: 160px; overflow-y: hidden;"></textarea>
-        <button type="button" onclick="calculate()">send</button>
-    </div>
-</form>
-<script>
+
+<script type="text/javascript">
         var click=0;
         function calculate() {
             if(click==0)
@@ -80,6 +52,51 @@
 
         }
 
+        function callAppMethod_chrome(event) {
+
+        var iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = 'winnercustomscheme://sendmessage?value={key:l5gxx8,value:{key:abc123,value:abc123}}';
+        document.body.appendChild(iframe);
+        document.body.removeChild(iframe);
+        }
+        function callAppMethod_webview(value) {
+     winnercustomscheme.sendmessage('{key:l5gxx8,value:{key:abc123,value:abc123}}')
+    }
 </script>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        textarea {
+            max-width: 100%;
+            width: 100%;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<form>
+    {% if myid is defined %}
+    <input type="hidden" id="num1" name="num1" value={{myid}}><br>
+    {% endif %}
+    <div id="results">
+    </div>
+    <label>content:</label><br>
+    <div class="container">
+        <textarea id="num2" tabindex="0" data-id="request-:r1:-8" rows="1" placeholder="Send a message..."
+                  class="m-0 w-full resize-none border-0 bg-transparent p-0 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0"
+                  style="max-height: 2000px; height: 160px; overflow-y: hidden;"></textarea>
+<!--        <button type="button" onclick="calculate()">send</button>-->
+       <button  onclick="callAppMethod_chrome(event)">callAppMethod_chrome</button>
+       <button type="button" onclick="callAppMethod_webview('{key:l5gxx8,value:{key:abc123,value:abc123}}')">callAppMethod_webview</button>
+    </div>
+</form>
+
+
 </body>
 </html>
